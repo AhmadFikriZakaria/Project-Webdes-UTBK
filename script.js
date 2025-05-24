@@ -1,45 +1,59 @@
+// JavaScript untuk Hamburger Menu 
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
+const mainHeader = document.getElementById("mainHeader");
 
-hamburger.addEventListener("click", mobileMenu);
-
-function mobileMenu() {
-    hamburger.classList.toggle("active");
-    navMenu.classList.toggle("active");
+if (hamburger && navMenu) {
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+        document.body.style.overflow = navMenu.classList.contains("active") ? "hidden" : "auto";
+        if (mainHeader) {
+            mainHeader.classList.toggle("menu-open", navMenu.classList.contains("active"));
+        }
+    });
 }
 
-// Menutup menu ketika link di klik (untuk navigasi halaman tunggal atau jika diinginkan)
-const navLink = document.querySelectorAll(".nav-link");
+// Menutup menu ketika link di klik (untuk navigasi halaman atau section)
+const navLinks = document.querySelectorAll(".nav-link");
+navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        if (hamburger && navMenu && hamburger.classList.contains("active")) {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("active");
+            document.body.style.overflow = "auto";
+            if (mainHeader) {
+                mainHeader.classList.remove("menu-open");
+            }
+        }
+    });
+});
 
-navLink.forEach(n => n.addEventListener("click", closeMenu));
-
-function closeMenu() {
-    // Hanya tutup jika menu mobile sedang aktif
-    if (hamburger.classList.contains("active")) {
-        hamburger.classList.remove("active");
-        navMenu.classList.remove("active");
-    }
+// Update tahun di footer 
+const currentYearSpan = document.getElementById("currentYear");
+if (currentYearSpan) {
+    currentYearSpan.textContent = new Date().getFullYear();
 }
 
-// Optional: Header menjadi sedikit transparan saat scroll ke bawah
-// dan solid saat kembali ke atas atau saat menu mobile aktif.
-// Ini adalah contoh sederhana, bisa dikembangkan lebih lanjut.
-const header = document.querySelector(".header");
-window.addEventListener("scroll", function() {
-    if (window.scrollY > 50) {
-        header.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
-        header.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
-    } else {
-        header.style.backgroundColor = "#fff";
-        header.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)"; // Atau hilangkan shadow jika mau
-    }
-});
+// Efek header sticky dan berubah saat scroll 
+if (mainHeader) {
+    let lastScrollTop = 0;
+    const scrollThreshold = 50;  // Jarak scroll sebelum header berubah/sembunyi
 
-// Pastikan header solid jika menu mobile terbuka
-hamburger.addEventListener("click", function() {
-    if (hamburger.classList.contains("active")) {
-        header.style.backgroundColor = "#fff"; // Warna solid saat menu terbuka
-    } else if (window.scrollY <= 50) {
-         header.style.backgroundColor = "#fff"; // Kembali ke state awal jika di atas
-    }
-});
+    window.addEventListener("scroll", function () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > scrollThreshold) {
+            mainHeader.classList.add("scrolled");
+        } else {
+            mainHeader.classList.remove("scrolled");
+        }
+
+        if (scrollTop > lastScrollTop && scrollTop > mainHeader.offsetHeight && !navMenu.classList.contains("active")) {
+            mainHeader.classList.add("hidden");
+        } else {
+            mainHeader.classList.remove("hidden");
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, false);
+}

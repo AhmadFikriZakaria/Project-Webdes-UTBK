@@ -8,40 +8,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" href="https://placehold.co/32x32/8B5CF6/FFFFFF?text=UM" type="image/png">
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
     <style>
-        
-        
-        /* Animasi fadeInUp (Sama seperti halaman lain) */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* Konten Spesifik Halaman Materi Belajar - Tab System */
         .materi-tabs-container {
             margin-bottom: 40px;
             display: flex;
-            justify-content: center; /* Pusatkan tab buttons */
-            border-bottom: 2px solid var(--bg-dark-tertiary); /* Garis bawah untuk container tab */
+            justify-content: center;
+            border-bottom: 2px solid var(--bg-dark-tertiary);
         }
         .materi-tab-button {
             background-color: transparent;
             color: var(--text-light-secondary);
             border: none;
-            padding: 15px 30px; /* Padding lebih besar untuk tab */
-            font-size: 1.1rem; /* Font lebih besar */
+            padding: 15px 30px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: color 0.3s ease, border-bottom-color 0.3s ease;
-            border-bottom: 3px solid transparent; /* Border bawah untuk indikator aktif */
-            margin-bottom: -2px; /* Agar border bottom menyatu dengan border container */
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
             position: relative;
         }
         .materi-tab-button:hover {
@@ -51,32 +37,26 @@
             color: var(--primary-color);
             border-bottom-color: var(--primary-color);
         }
-        .materi-tab-button.active::after { /* Efek underline tambahan untuk active tab */
+        .materi-tab-button.active::after {
             content: '';
             position: absolute;
-            left: 15%; /* Sesuaikan agar pas */
+            left: 15%;
             right: 15%;
-            bottom: -2px; /* Menyatu dengan border */
+            bottom: -2px;
             height: 3px;
             background: var(--primary-color);
             border-radius: 1.5px;
         }
-
-
         .materi-tab-pane {
-            display: none; /* Sembunyikan semua pane by default */
-            padding-top: 40px; /* Jarak dari tab buttons */
-            animation: fadeInUp 0.7s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; /* Animasi saat tab aktif */
-            opacity: 0; /* Untuk animasi */
+            display: none;
+            padding-top: 40px;
         }
         .materi-tab-pane.active {
             display: block;
-            opacity: 1;
         }
-        
         .materi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); /* Kartu sedikit lebih lebar */
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
             gap: 35px;
         }
         .materi-card {
@@ -86,25 +66,18 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            /* Opacity diatur oleh .materi-tab-pane */
         }
         .materi-card:hover {
-            transform: translateY(-10px);
             box-shadow: 0 12px 30px rgba(0,0,0,0.3);
         }
         .materi-card-image-container {
-            height: 210px; /* Tinggi gambar disesuaikan */
+            height: 210px;
             overflow: hidden;
         }
         .materi-card-image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .materi-card:hover .materi-card-image-container img {
-            transform: scale(1.12);
         }
         .materi-card-content {
             padding: 30px 25px;
@@ -112,13 +85,13 @@
             display: flex;
             flex-direction: column;
         }
-        .materi-card-content h3 { 
+        .materi-card-content h3 {
             font-size: 1.5rem;
             color: #fff;
             margin-bottom: 12px;
             font-weight: 600;
         }
-        .materi-card-content p.description { 
+        .materi-card-content p.description {
             font-size: 0.95rem;
             color: var(--text-light-secondary);
             margin-bottom: 25px;
@@ -128,111 +101,23 @@
             margin-top: auto;
             align-self: flex-start;
         }
-        
-        /* Footer (Sama seperti halaman lain) */
-        .footer {
-            background-color: var(--bg-dark-tertiary);
-            color: var(--text-light-secondary);
-            padding: 70px 0 35px;
-        }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 45px;
-            margin-bottom: 45px;
-        }
-        .footer-about h3, .footer-links h4, .footer-contact h4 {
-            font-size: 1.45rem;
-            margin-bottom: 25px;
-            color: #fff;
-            font-weight: 600;
-        }
-        .footer-about p { margin-bottom: 25px; font-size: 0.98rem; line-height: 1.8; }
-        .social-links a { display: inline-flex; justify-content: center; align-items: center; margin-right: 12px; width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.08); transition: background-color 0.3s ease, transform 0.3s ease; }
-        .social-links img { width: 20px; height: 20px; filter: grayscale(0%) brightness(1.8); }
-        .social-links a:hover { background-color: var(--primary-color); transform: translateY(-3px); }
-        .social-links a:hover img { filter: grayscale(0%) brightness(1); }
-        .footer-links ul { list-style: none; }
-        .footer-links ul li a { color: var(--text-light-secondary); margin-bottom: 14px; display: block; transition: color 0.3s ease, padding-left 0.3s ease; }
-        .footer-links ul li a:hover { color: var(--primary-color); padding-left: 8px; }
-        .footer-contact p { margin-bottom: 12px; font-size: 0.98rem; display: flex; align-items: center; }
-        .footer-contact p img { width: 20px; height: 20px; margin-right: 12px; filter: invert(80%) sepia(60%) saturate(400%) hue-rotate(190deg) brightness(1.1); }
-        .footer-divider { border: 0; border-top: 1px solid rgba(255, 255, 255, 0.12); margin: 35px 0; }
-        .footer-copy { text-align: center; font-size: 0.92rem; }
-
-
         /* Responsive Design */
         @media (max-width: 992px) {
             .page-title-section h1 { font-size: 2.6rem; }
             .materi-tab-button { padding: 12px 20px; font-size: 1rem;}
         }
-
         @media (max-width: 768px) {
-            :root { --header-height: 65px; } 
-            body { padding-top: var(--header-height); }
-
-            .section-title { font-size: 2.2rem; }
-            .section-subtitle { font-size: 1.05rem; margin-bottom: 35px; }
-            .section-padding { padding: 60px 0; }
-            .page-title-section { padding: 70px 0; }
-            .page-title-section h1 { font-size: 2.4rem; }
-            .page-title-section p { font-size: 1.05rem; }
-
-            .nav-menu {
-                position: fixed;
-                left: -100%;
-                top: var(--header-height);
-                flex-direction: column;
-                background-color: var(--bg-dark-secondary); 
-                width: 100%;
-                height: calc(100vh - var(--header-height)); 
-                text-align: center;
-                transition: left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
-                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.25);
-                padding-top: 35px;
-                overflow-y: auto; 
-            }
-            .nav-menu.active {
-                left: 0;
-            }
-            .nav-item {
-                margin: 28px 0; 
-            }
-            .nav-link { font-size: 1.25rem; } 
-            .hamburger {
-                display: block;
-                z-index: 1001; 
-            }
-            .hamburger.active .bar:nth-child(2) { opacity: 0; transform: translateX(20px); } 
-            .hamburger.active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-            .hamburger.active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-            
             .materi-tabs-container {
-                flex-wrap: wrap; /* Agar tab bisa wrap di mobile */
+                flex-wrap: wrap;
             }
             .materi-tab-button { 
                 padding: 10px 15px; 
                 font-size: 0.95rem;
-                flex-grow: 1; /* Agar tab mengisi lebar jika wrap */
-                margin-bottom: 5px; /* Jarak jika wrap */
+                flex-grow: 1;
+                margin-bottom: 5px;
             }
             .materi-grid { grid-template-columns: 1fr; }
             .materi-card-content h3 { font-size: 1.3rem; }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .footer-about, .footer-links, .footer-contact {
-                margin-bottom: 35px;
-            }
-            .social-links {
-                justify-content: center;
-                display: flex;
-            }
-            .footer-contact p {
-                justify-content: center; 
-            }
         }
     </style>
 </head>
@@ -256,26 +141,22 @@
             </nav>
         </div>
     </header>
-
     <section class="page-title-section">
         <div class="container">
             <h1>Materi Belajar UTBK</h1>
             <p>Jelajahi koleksi materi pembelajaran kami yang lengkap dan terstruktur untuk setiap subtes UTBK.</p>
         </div>
     </section>
-
     <main>
         <section class="materi-showcase-section section-padding">
             <div class="container">
                 <h2 class="section-title">Pilih Kategori Materi</h2>
                 <p class="section-subtitle">Navigasi antar kelompok materi utama untuk menemukan subtes yang ingin kamu pelajari lebih dalam.</p>
-                
                 <div class="materi-tabs-container">
                     <button class="materi-tab-button active" data-tab="tps">Tes Potensi Skolastik (TPS)</button>
                     <button class="materi-tab-button" data-tab="saintek">Kelompok Ujian SAINTEK</button>
                     <button class="materi-tab-button" data-tab="soshum">Kelompok Ujian SOSHUM</button>
                 </div>
-
                 <div class="materi-tab-content-container">
                     <div id="tps" class="materi-tab-pane active">
                         <div class="materi-grid">
@@ -321,7 +202,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="saintek" class="materi-tab-pane">
                         <div class="materi-grid">
                             <div class="materi-card">
@@ -366,7 +246,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="soshum" class="materi-tab-pane">
                         <div class="materi-grid">
                             <div class="materi-card">
@@ -411,10 +290,10 @@
                             </div>
                         </div>
                     </div>
-                </div> </div>
+                </div>
+            </div>
         </section>
     </main>
-
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -450,117 +329,21 @@
             <p class="footer-copy">&copy; <span id="currentYear"></span> UTBK Master. Semua Hak Cipta Dilindungi.</p>
         </div>
     </footer>
-
     <script>
-        // JavaScript untuk Hamburger Menu, Sticky Header, Footer Year (Sama seperti halaman lain)
-        const hamburger = document.querySelector(".hamburger");
-        const navMenu = document.querySelector(".nav-menu");
-        const mainHeader = document.getElementById("mainHeader"); 
-
-        if (hamburger && navMenu) {
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle("active");
-                navMenu.classList.toggle("active");
-                document.body.style.overflow = navMenu.classList.contains("active") ? "hidden" : "auto";
-                if (mainHeader) { 
-                    mainHeader.classList.toggle("menu-open", navMenu.classList.contains("active"));
-                }
-            });
-        }
-
-        const navLinks = document.querySelectorAll(".nav-link");
-        navLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                if (hamburger && navMenu && hamburger.classList.contains("active")) {
-                    hamburger.classList.remove("active");
-                    navMenu.classList.remove("active");
-                    document.body.style.overflow = "auto"; 
-                    if (mainHeader) {
-                         mainHeader.classList.remove("menu-open");
-                    }
-                }
-            });
-        });
-        
-        const currentYearSpan = document.getElementById("currentYear");
-        if (currentYearSpan) {
-            currentYearSpan.textContent = new Date().getFullYear();
-        }
-
-        if (mainHeader) {
-            let lastScrollTop = 0;
-            const scrollThreshold = 50; 
-            window.addEventListener("scroll", function() {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                if (scrollTop > scrollThreshold) {
-                    mainHeader.classList.add("scrolled");
-                } else {
-                    mainHeader.classList.remove("scrolled");
-                }
-                if (scrollTop > lastScrollTop && scrollTop > mainHeader.offsetHeight && !navMenu.classList.contains("active")) {
-                    mainHeader.classList.add("hidden"); 
-                } else {
-                    mainHeader.classList.remove("hidden");
-                }
-                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
-            }, false);
-        }
-
         // JavaScript untuk Tab System Materi Belajar
-        const tabButtons = document.querySelectorAll(".materi-tab-button");
-        const tabPanes = document.querySelectorAll(".materi-tab-pane");
-
-        if (tabButtons.length > 0 && tabPanes.length > 0) {
-            tabButtons.forEach(button => {
-                button.addEventListener("click", () => {
-                    // Nonaktifkan semua tombol dan pane
-                    tabButtons.forEach(btn => btn.classList.remove("active"));
-                    tabPanes.forEach(pane => pane.classList.remove("active"));
-
-                    // Aktifkan tombol yang diklik dan pane yang sesuai
-                    button.classList.add("active");
-                    const targetTabId = button.getAttribute("data-tab");
-                    const targetPane = document.getElementById(targetTabId);
-                    if (targetPane) {
-                        targetPane.classList.add("active");
-                        // Re-trigger animasi untuk card di tab yang baru aktif (jika perlu)
-                        const cardsInPane = targetPane.querySelectorAll('.materi-card');
-                        cardsInPane.forEach(card => {
-                            card.style.animation = 'none'; // Reset animasi
-                            card.style.opacity = '0'; // Set ulang opacity
-                            // eslint-disable-next-line no-unused-expressions
-                            card.offsetHeight; // Trigger reflow
-                            card.style.animation = ''; // Hapus style animasi inline agar CSS @keyframes berlaku
-                            card.style.opacity = ''; // Hapus style opacity inline
-                            // Observer akan menangani kemunculan jika elemen belum diobservasi
-                        });
-                    }
-                });
-            });
-        }
-
-        // Animasi untuk materi-card (Intersection Observer)
-        const animatedElements = document.querySelectorAll('.materi-card'); 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Hanya jalankan animasi jika tab pane-nya aktif
-                    const parentPane = entry.target.closest('.materi-tab-pane');
-                    if (parentPane && parentPane.classList.contains('active')) {
-                        entry.target.style.animation = `fadeInUp 0.9s cubic-bezier(0.25, 0.8, 0.25, 1) 0.2s forwards`;
-                        entry.target.style.opacity = '1'; 
-                        observer.unobserve(entry.target); 
-                    }
+        const tabButtons = document.querySelectorAll('.materi-tab-button');
+        const tabPanes = document.querySelectorAll('.materi-tab-pane');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+                const targetPane = document.getElementById(button.dataset.tab);
+                if (targetPane) {
+                    targetPane.classList.add('active');
                 }
             });
-        }, { threshold: 0.15 }); 
-
-        animatedElements.forEach(el => {
-            // Opacity awal diatur di CSS untuk .materi-card, jadi tidak perlu di set di JS lagi
-            // kecuali jika ada logika reset animasi yang lebih kompleks.
-            observer.observe(el);
         });
-
     </script>
 </body>
 </html>
