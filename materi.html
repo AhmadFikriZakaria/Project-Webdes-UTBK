@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Belajar - UTBK Master</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://placehold.co/32x32/8B5CF6/FFFFFF?text=UM" type="image/png">
+<link rel="stylesheet" href="style.css">
+    <style>
+        
+        
+        /* Animasi fadeInUp (Sama seperti halaman lain) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Konten Spesifik Halaman Materi Belajar - Tab System */
+        .materi-tabs-container {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center; /* Pusatkan tab buttons */
+            border-bottom: 2px solid var(--bg-dark-tertiary); /* Garis bawah untuk container tab */
+        }
+        .materi-tab-button {
+            background-color: transparent;
+            color: var(--text-light-secondary);
+            border: none;
+            padding: 15px 30px; /* Padding lebih besar untuk tab */
+            font-size: 1.1rem; /* Font lebih besar */
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 3px solid transparent; /* Border bawah untuk indikator aktif */
+            margin-bottom: -2px; /* Agar border bottom menyatu dengan border container */
+            position: relative;
+        }
+        .materi-tab-button:hover {
+            color: var(--primary-color);
+        }
+        .materi-tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        .materi-tab-button.active::after { /* Efek underline tambahan untuk active tab */
+            content: '';
+            position: absolute;
+            left: 15%; /* Sesuaikan agar pas */
+            right: 15%;
+            bottom: -2px; /* Menyatu dengan border */
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 1.5px;
+        }
+
+
+        .materi-tab-pane {
+            display: none; /* Sembunyikan semua pane by default */
+            padding-top: 40px; /* Jarak dari tab buttons */
+            animation: fadeInUp 0.7s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; /* Animasi saat tab aktif */
+            opacity: 0; /* Untuk animasi */
+        }
+        .materi-tab-pane.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .materi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); /* Kartu sedikit lebih lebar */
+            gap: 35px;
+        }
+        .materi-card {
+            background-color: var(--bg-dark-secondary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Opacity diatur oleh .materi-tab-pane */
+        }
+        .materi-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+        .materi-card-image-container {
+            height: 210px; /* Tinggi gambar disesuaikan */
+            overflow: hidden;
+        }
+        .materi-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .materi-card:hover .materi-card-image-container img {
+            transform: scale(1.12);
+        }
+        .materi-card-content {
+            padding: 30px 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .materi-card-content h3 { 
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .materi-card-content p.description { 
+            font-size: 0.95rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        .materi-card-content .btn-materi-detail {
+            margin-top: auto;
+            align-self: flex-start;
+        }
+        
+        /* Footer (Sama seperti halaman lain) */
+        .footer {
+            background-color: var(--bg-dark-tertiary);
+            color: var(--text-light-secondary);
+            padding: 70px 0 35px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 45px;
+            margin-bottom: 45px;
+        }
+        .footer-about h3, .footer-links h4, .footer-contact h4 {
+            font-size: 1.45rem;
+            margin-bottom: 25px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .footer-about p { margin-bottom: 25px; font-size: 0.98rem; line-height: 1.8; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; margin-right: 12px; width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.08); transition: background-color 0.3s ease, transform 0.3s ease; }
+        .social-links img { width: 20px; height: 20px; filter: grayscale(0%) brightness(1.8); }
+        .social-links a:hover { background-color: var(--primary-color); transform: translateY(-3px); }
+        .social-links a:hover img { filter: grayscale(0%) brightness(1); }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li a { color: var(--text-light-secondary); margin-bottom: 14px; display: block; transition: color 0.3s ease, padding-left 0.3s ease; }
+        .footer-links ul li a:hover { color: var(--primary-color); padding-left: 8px; }
+        .footer-contact p { margin-bottom: 12px; font-size: 0.98rem; display: flex; align-items: center; }
+        .footer-contact p img { width: 20px; height: 20px; margin-right: 12px; filter: invert(80%) sepia(60%) saturate(400%) hue-rotate(190deg) brightness(1.1); }
+        .footer-divider { border: 0; border-top: 1px solid rgba(255, 255, 255, 0.12); margin: 35px 0; }
+        .footer-copy { text-align: center; font-size: 0.92rem; }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .page-title-section h1 { font-size: 2.6rem; }
+            .materi-tab-button { padding: 12px 20px; font-size: 1rem;}
+        }
+
+        @media (max-width: 768px) {
+            :root { --header-height: 65px; } 
+            body { padding-top: var(--header-height); }
+
+            .section-title { font-size: 2.2rem; }
+            .section-subtitle { font-size: 1.05rem; margin-bottom: 35px; }
+            .section-padding { padding: 60px 0; }
+            .page-title-section { padding: 70px 0; }
+            .page-title-section h1 { font-size: 2.4rem; }
+            .page-title-section p { font-size: 1.05rem; }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: var(--header-height);
+                flex-direction: column;
+                background-color: var(--bg-dark-secondary); 
+                width: 100%;
+                height: calc(100vh - var(--header-height)); 
+                text-align: center;
+                transition: left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.25);
+                padding-top: 35px;
+                overflow-y: auto; 
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-item {
+                margin: 28px 0; 
+            }
+            .nav-link { font-size: 1.25rem; } 
+            .hamburger {
+                display: block;
+                z-index: 1001; 
+            }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; transform: translateX(20px); } 
+            .hamburger.active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            
+            .materi-tabs-container {
+                flex-wrap: wrap; /* Agar tab bisa wrap di mobile */
+            }
+            .materi-tab-button { 
+                padding: 10px 15px; 
+                font-size: 0.95rem;
+                flex-grow: 1; /* Agar tab mengisi lebar jika wrap */
+                margin-bottom: 5px; /* Jarak jika wrap */
+            }
+            .materi-grid { grid-template-columns: 1fr; }
+            .materi-card-content h3 { font-size: 1.3rem; }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-about, .footer-links, .footer-contact {
+                margin-bottom: 35px;
+            }
+            .social-links {
+                justify-content: center;
+                display: flex;
+            }
+            .footer-contact p {
+                justify-content: center; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="nav-logo">UTBK<span>Master</span></a>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Beranda</a></li>
+                    <li class="nav-item"><a href="tentang.html" class="nav-link">Tentang Kami</a></li>
+                    <li class="nav-item"><a href="harga.html" class="nav-link">Harga</a></li>
+                    <li class="nav-item"><a href="materi.html" class="nav-link active">Materi Belajar</a></li>
+                    <li class="nav-item"><a href="kontak.html" class="nav-link">Kontak</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-title-section">
+        <div class="container">
+            <h1>Materi Belajar UTBK</h1>
+            <p>Jelajahi koleksi materi pembelajaran kami yang lengkap dan terstruktur untuk setiap subtes UTBK.</p>
+        </div>
+    </section>
+
+    <main>
+        <section class="materi-showcase-section section-padding">
+            <div class="container">
+                <h2 class="section-title">Pilih Kategori Materi</h2>
+                <p class="section-subtitle">Navigasi antar kelompok materi utama untuk menemukan subtes yang ingin kamu pelajari lebih dalam.</p>
+                
+                <div class="materi-tabs-container">
+                    <button class="materi-tab-button active" data-tab="tps">Tes Potensi Skolastik (TPS)</button>
+                    <button class="materi-tab-button" data-tab="saintek">Kelompok Ujian SAINTEK</button>
+                    <button class="materi-tab-button" data-tab="soshum">Kelompok Ujian SOSHUM</button>
+                </div>
+
+                <div class="materi-tab-content-container">
+                    <div id="tps" class="materi-tab-pane active">
+                        <div class="materi-grid">
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/tpspenalaranumumModern/400/210" alt="Penalaran Umum" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Penalaran+Umum';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Penalaran Umum</h3>
+                                    <p class="description">Asah kemampuan berpikir logis dan analitis untuk memecahkan masalah berdasarkan informasi yang diberikan.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/tpskuantitatifModern/400/210" alt="Pengetahuan Kuantitatif" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Kuantitatif';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Pengetahuan Kuantitatif</h3>
+                                    <p class="description">Kuasai konsep matematika dasar, aljabar, geometri, dan statistika yang sering muncul dalam soal.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/tpspbmModern/400/210" alt="Pemahaman Bacaan dan Menulis" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=PBM';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Pemahaman Bacaan & Menulis</h3>
+                                    <p class="description">Tingkatkan kemampuan memahami isi bacaan, menemukan ide pokok, dan kaidah penulisan yang benar.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/tpsppuModern/400/210" alt="Pengetahuan dan Pemahaman Umum" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=PPU';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Pengetahuan & Pemahaman Umum</h3>
+                                    <p class="description">Perluas wawasanmu tentang berbagai topik sosial, budaya, sains, dan isu terkini yang relevan.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="saintek" class="materi-tab-pane">
+                        <div class="materi-grid">
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/saintekmatematikaModern/400/210" alt="Matematika SAINTEK" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Matematika+SAINTEK';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Matematika SAINTEK</h3>
+                                    <p class="description">Pembahasan mendalam materi kalkulus, trigonometri, vektor, matriks, dan peluang.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/saintekfisikaModern/400/210" alt="Fisika" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Fisika';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Fisika</h3>
+                                    <p class="description">Kuasai konsep mekanika, termodinamika, optik, listrik magnet, dan fisika modern.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/saintekimiaModern/400/210" alt="Kimia" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Kimia';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Kimia</h3>
+                                    <p class="description">Pelajari struktur atom, ikatan kimia, stoikiometri, laju reaksi, termokimia, dan kimia organik.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/saintekbiologiModern/400/210" alt="Biologi" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Biologi';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Biologi</h3>
+                                    <p class="description">Pahami sel, jaringan, sistem organ, genetika, evolusi, ekologi, dan bioteknologi.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="soshum" class="materi-tab-pane">
+                        <div class="materi-grid">
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/soshumsejarahModern/400/210" alt="Sejarah" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Sejarah';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Sejarah</h3>
+                                    <p class="description">Jelajahi peristiwa penting sejarah Indonesia dan dunia, serta analisis dampaknya.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/soshumgeografiModern/400/210" alt="Geografi" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Geografi';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Geografi</h3>
+                                    <p class="description">Pahami konsep dasar geografi fisik, sosial, ekonomi, dan isu lingkungan global.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/soshumsosiologiModern/400/210" alt="Sosiologi" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Sosiologi';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Sosiologi</h3>
+                                    <p class="description">Analisis interaksi sosial, struktur sosial, perubahan sosial, dan masalah sosial kontemporer.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                            <div class="materi-card">
+                                <div class="materi-card-image-container">
+                                    <img src="https://picsum.photos/seed/soshumekonomiModern/400/210" alt="Ekonomi" onerror="this.onerror=null;this.src='https://placehold.co/400x210/1F2937/9CA3AF?text=Ekonomi';">
+                                </div>
+                                <div class="materi-card-content">
+                                    <h3>Ekonomi</h3>
+                                    <p class="description">Pelajari prinsip dasar ekonomi mikro dan makro, kebijakan fiskal, moneter, dan perdagangan.</p>
+                                    <a href="#" class="btn btn-materi-detail">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>UTBK<span>Master</span></h3>
+                    <p>Platform persiapan UTBK online terdepan yang berkomitmen untuk membantumu mencapai Perguruan Tinggi Negeri impian melalui pembelajaran berkualitas dan inovatif.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><img src="https://placehold.co/20x20/FFFFFF/000000?text=FB" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="https://placehold.co/20x20/FFFFFF/000000?text=IG" alt="Instagram"></a>
+                        <a href="#" aria-label="Twitter"><img src="https://placehold.co/20x20/FFFFFF/000000?text=TW" alt="Twitter"></a>
+                        <a href="#" aria-label="YouTube"><img src="https://placehold.co/20x20/FFFFFF/000000?text=YT" alt="YouTube"></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigasi Cepat</h4>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="harga.html">Paket Harga</a></li>
+                        <li><a href="materi.html">Materi Belajar</a></li>
+                        <li><a href="kontak.html">Hubungi Kami</a></li>
+                        <li><a href="harga.html#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Hubungi Kami</h4>
+                    <p><img src="https://placehold.co/20x20/8B5CF6/FFFFFF?text=M" alt="Email Icon"> info@utbkmaster.com</p>
+                    <p><img src="https://placehold.co/20x20/8B5CF6/FFFFFF?text=P" alt="Telepon Icon"> (021) 123-4567</p>
+                    <p><img src="https://placehold.co/20x20/8B5CF6/FFFFFF?text=L" alt="Lokasi Icon"> Jl. Pendidikan No. 123, Jakarta Selatan, Indonesia</p>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <p class="footer-copy">&copy; <span id="currentYear"></span> UTBK Master. Semua Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk Hamburger Menu, Sticky Header, Footer Year (Sama seperti halaman lain)
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+        const mainHeader = document.getElementById("mainHeader"); 
+
+        if (hamburger && navMenu) {
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+                document.body.style.overflow = navMenu.classList.contains("active") ? "hidden" : "auto";
+                if (mainHeader) { 
+                    mainHeader.classList.toggle("menu-open", navMenu.classList.contains("active"));
+                }
+            });
+        }
+
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                if (hamburger && navMenu && hamburger.classList.contains("active")) {
+                    hamburger.classList.remove("active");
+                    navMenu.classList.remove("active");
+                    document.body.style.overflow = "auto"; 
+                    if (mainHeader) {
+                         mainHeader.classList.remove("menu-open");
+                    }
+                }
+            });
+        });
+        
+        const currentYearSpan = document.getElementById("currentYear");
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        if (mainHeader) {
+            let lastScrollTop = 0;
+            const scrollThreshold = 50; 
+            window.addEventListener("scroll", function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > scrollThreshold) {
+                    mainHeader.classList.add("scrolled");
+                } else {
+                    mainHeader.classList.remove("scrolled");
+                }
+                if (scrollTop > lastScrollTop && scrollTop > mainHeader.offsetHeight && !navMenu.classList.contains("active")) {
+                    mainHeader.classList.add("hidden"); 
+                } else {
+                    mainHeader.classList.remove("hidden");
+                }
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+            }, false);
+        }
+
+        // JavaScript untuk Tab System Materi Belajar
+        const tabButtons = document.querySelectorAll(".materi-tab-button");
+        const tabPanes = document.querySelectorAll(".materi-tab-pane");
+
+        if (tabButtons.length > 0 && tabPanes.length > 0) {
+            tabButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    // Nonaktifkan semua tombol dan pane
+                    tabButtons.forEach(btn => btn.classList.remove("active"));
+                    tabPanes.forEach(pane => pane.classList.remove("active"));
+
+                    // Aktifkan tombol yang diklik dan pane yang sesuai
+                    button.classList.add("active");
+                    const targetTabId = button.getAttribute("data-tab");
+                    const targetPane = document.getElementById(targetTabId);
+                    if (targetPane) {
+                        targetPane.classList.add("active");
+                        // Re-trigger animasi untuk card di tab yang baru aktif (jika perlu)
+                        const cardsInPane = targetPane.querySelectorAll('.materi-card');
+                        cardsInPane.forEach(card => {
+                            card.style.animation = 'none'; // Reset animasi
+                            card.style.opacity = '0'; // Set ulang opacity
+                            // eslint-disable-next-line no-unused-expressions
+                            card.offsetHeight; // Trigger reflow
+                            card.style.animation = ''; // Hapus style animasi inline agar CSS @keyframes berlaku
+                            card.style.opacity = ''; // Hapus style opacity inline
+                            // Observer akan menangani kemunculan jika elemen belum diobservasi
+                        });
+                    }
+                });
+            });
+        }
+
+        // Animasi untuk materi-card (Intersection Observer)
+        const animatedElements = document.querySelectorAll('.materi-card'); 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Hanya jalankan animasi jika tab pane-nya aktif
+                    const parentPane = entry.target.closest('.materi-tab-pane');
+                    if (parentPane && parentPane.classList.contains('active')) {
+                        entry.target.style.animation = `fadeInUp 0.9s cubic-bezier(0.25, 0.8, 0.25, 1) 0.2s forwards`;
+                        entry.target.style.opacity = '1'; 
+                        observer.unobserve(entry.target); 
+                    }
+                }
+            });
+        }, { threshold: 0.15 }); 
+
+        animatedElements.forEach(el => {
+            // Opacity awal diatur di CSS untuk .materi-card, jadi tidak perlu di set di JS lagi
+            // kecuali jika ada logika reset animasi yang lebih kompleks.
+            observer.observe(el);
+        });
+
+    </script>
+</body>
+</html>
